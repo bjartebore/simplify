@@ -1,0 +1,10 @@
+name: simplify_dart
+description: A high-performance dart 2D/3D polyline simplification library
+version: 1.0.0
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dev_dependencies:
+  lints: ^1.0.1
+  test: ^1.14.7

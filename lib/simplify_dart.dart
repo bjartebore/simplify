@@ -1,18 +1,21 @@
 import 'dart:math';
 
-double _getSqDist(Point<double> p1, Point<double> p2) {
-  final double dx = p1.x - p2.x,
-      dy = p1.y - p2.y;
+double _getSqDist(
+  Point<double> p1,
+  Point<double> p2,
+) {
+  final double dx = p1.x - p2.x, dy = p1.y - p2.y;
 
   return dx * dx + dy * dy;
 }
 
 // square distance from a point to a segment
-double _getSqSegDist(Point<double> p, Point<double> p1, Point<double> p2) {
-  double x = p1.x,
-      y = p1.y,
-      dx = p2.x - x,
-      dy = p2.y - y;
+double _getSqSegDist(
+  Point<double> p,
+  Point<double> p1,
+  Point<double> p2,
+) {
+  double x = p1.x, y = p1.y, dx = p2.x - x, dy = p2.y - y;
 
   if (dx != 0 || dy != 0) {
     final double t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy);
@@ -32,7 +35,10 @@ double _getSqSegDist(Point<double> p, Point<double> p1, Point<double> p2) {
   return dx * dx + dy * dy;
 }
 
-List<Point<double>> _simplifyRadialDist(List<Point<double>> points, double sqTolerance) {
+List<Point<double>> _simplifyRadialDist(
+  List<Point<double>> points,
+  double sqTolerance,
+) {
   Point<double> prevPoint = points[0];
   final List<Point<double>> newPoints = [prevPoint];
   late Point<double> point;
@@ -65,12 +71,12 @@ void _simplifyDPStep(
   late int index;
 
   for (var i = first + 1; i < last; i++) {
-      final double sqDist = _getSqSegDist(points[i], points[first], points[last]);
+    final double sqDist = _getSqSegDist(points[i], points[first], points[last]);
 
-      if (sqDist > maxSqDist) {
-          index = i;
-          maxSqDist = sqDist;
-      }
+    if (sqDist > maxSqDist) {
+      index = i;
+      maxSqDist = sqDist;
+    }
   }
 
   if (maxSqDist > sqTolerance) {
@@ -85,7 +91,10 @@ void _simplifyDPStep(
 }
 
 // simplification using Ramer-Douglas-Peucker algorithm
-List<Point<double>> _simplifyDouglasPeucker(List<Point<double>> points, double sqTolerance) {
+List<Point<double>> _simplifyDouglasPeucker(
+  List<Point<double>> points,
+  double sqTolerance,
+) {
   final int last = points.length - 1;
 
   final List<Point<double>> simplified = [points[0]];
@@ -97,13 +106,10 @@ List<Point<double>> _simplifyDouglasPeucker(List<Point<double>> points, double s
 
 // both algorithms combined for awesome performance
 List<Point<double>> simplify(
-  List<Point<double>> points,
-  {
-    double? tolerance,
-    bool highestQuality = false,
-  }
-) {
-
+  List<Point<double>> points, {
+  double? tolerance,
+  bool highestQuality = false,
+}) {
   if (points.length <= 2) {
     return points;
   }
@@ -112,9 +118,8 @@ List<Point<double>> simplify(
 
   final double sqTolerance = tolerance != null ? tolerance * tolerance : 1;
 
-  nextPoints = highestQuality
-    ? points
-    : _simplifyRadialDist(nextPoints, sqTolerance);
+  nextPoints =
+      highestQuality ? points : _simplifyRadialDist(nextPoints, sqTolerance);
 
   nextPoints = _simplifyDouglasPeucker(nextPoints, sqTolerance);
 

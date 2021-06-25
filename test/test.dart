@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:simplify_dart/simplify_dart.dart';
+import 'package:simplify/simplify.dart';
 import 'package:test/test.dart';
 
-const List<Point<double>> points = [
+const List<Point> points = [
   Point(224.55, 250.15),
   Point(226.91, 244.19),
   Point(233.31, 241.45),
@@ -154,7 +154,7 @@ void main() {
   });
 
   test('ust return the points if it has no points', () {
-    final result = simplify(const []);
+    final result = simplify(const <Point>[]);
     expect(result, equals(const []));
   });
 }

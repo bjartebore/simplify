@@ -1,4 +1,4 @@
-simplify_dart
+simplify (dart)
 ===========
 
 A Go port of simplify-js (https://github.com/mourner/simplify-js).
